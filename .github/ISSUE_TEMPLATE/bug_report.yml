@@ -1,0 +1,73 @@
+# .github/ISSUE_TEMPLATE/bug_report.yml
+name: 🐛 Bug Report
+description: Something isn't working correctly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please fill out the details below.
+
+  - type: input
+    id: card-version
+    attributes:
+      label: VentoSync Card Version
+      placeholder: "e.g. 1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant Version
+      placeholder: "e.g. 2025.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: firmware-version
+    attributes:
+      label: VentoSync Firmware Version
+      placeholder: "e.g. 2.3.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation Method
+      options:
+        - HACS
+        - Manual
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      placeholder: What happened? What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: card-config
+    attributes:
+      label: Card Configuration
+      render: yaml
+      placeholder: |
+        type: custom:ventosync-card
+        entity: fan.ventosync_hrv
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Browser Console Errors
+      render: text
+      placeholder: Open DevTools (F12) → Console tab → paste errors here
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      placeholder: Drag & drop screenshots here

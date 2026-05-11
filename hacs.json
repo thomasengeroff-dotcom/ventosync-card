@@ -1,0 +1,8 @@
+{
+    "name": "VentoSync Card",
+    "render_readme": true,
+    "filename": "dist/ventosync-card.js",
+    "content_in_root": false,
+    "homeassistant": "2024.1.0",
+    "hacs": "2.0.0"
+}

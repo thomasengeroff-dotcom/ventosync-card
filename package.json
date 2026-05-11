@@ -1,0 +1,42 @@
+{
+    "name": "ventosync-card",
+    "version": "1.0.0",
+    "description": "A custom Home Assistant Lovelace card for VentoSync HRV devices – circular fan control with real-time air quality monitoring.",
+    "main": "dist/ventosync-card.js",
+    "type": "module",
+    "scripts": {
+        "build": "rollup -c",
+        "watch": "rollup -c --watch",
+        "serve": "npx -y serve dist -l 5500 --no-clipboard",
+        "dev": "npm run watch & npm run serve",
+        "lint": "eslint src/",
+        "lint:fix": "eslint src/ --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/thomasengeroff-dotcom/ventosync-card.git"
+    },
+    "keywords": [
+        "home-assistant",
+        "lovelace",
+        "custom-card",
+        "hacs",
+        "esphome",
+        "hvac",
+        "ventilation",
+        "hrv",
+        "air-quality"
+    ],
+    "author": "Thomas Engeroff",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/thomasengeroff-dotcom/ventosync-card/issues"
+    },
+    "homepage": "https://github.com/thomasengeroff-dotcom/ventosync-card#readme",
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^16.0.0",
+        "@rollup/plugin-terser": "^1.0.0",
+        "eslint": "^9.0.0",
+        "rollup": "^4.28.0"
+    }
+}

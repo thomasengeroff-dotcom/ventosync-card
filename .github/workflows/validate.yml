@@ -1,0 +1,23 @@
+# .github/workflows/validate.yml
+# HACS validation – runs on every push and PR
+# This ensures your card stays compatible with HACS
+
+name: HACS Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: HACS Validation
+        uses: hacs/action@main
+        with:
+          category: plugin
