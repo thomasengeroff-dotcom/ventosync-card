@@ -17,7 +17,7 @@ A custom Home Assistant Lovelace card for [VentoSync](https://github.com/thomase
 - 🌬️ **Real-time air quality** — CO₂, IAQ, temperature, humidity
 - 📊 **Heat recovery efficiency** monitoring
 - 👤 **Presence-aware** status indication
-- 🎨 **Mode-specific themes** — Normal, Eco, Boost, Sleep, Away, Bypass
+- 🎨 **Mode-specific themes** — Smart-Automatik, Wärmerückgewinnung, Durchlüften, Stoßlüftung
 - 📱 **Touch-optimized** with snap-to-step and haptic feedback
 - 🔧 **HACS compatible** for easy installation and updates
 
@@ -64,15 +64,15 @@ entity: fan.ventosync_hrv
 name: Schlafzimmer
 # Optional sensor entities for the info panel
 sensors:
-  co2: sensor.ventosync_co2
-  temperature: sensor.ventosync_temperature
-  humidity: sensor.ventosync_humidity
-  iaq: sensor.ventosync_iaq
-  pressure: sensor.ventosync_pressure
-  supply_temp: sensor.ventosync_supply_air
-  exhaust_temp: sensor.ventosync_exhaust_air
-  heat_recovery: sensor.ventosync_heat_recovery
-  presence: binary_sensor.ventosync_presence
+  co2: sensor.ventosync_effektiver_co2_wert
+  temperature: sensor.ventosync_scd41_temperatur
+  humidity: sensor.ventosync_scd41_luftfeuchtigkeit
+  iaq: sensor.ventosync_bme680_luftqualitat_co2eq
+  pressure: sensor.ventosync_bmp390_luftdruck
+  supply_temp: sensor.ventosync_wrg_temperatur_zuluft_innen
+  exhaust_temp: sensor.ventosync_wrg_temperatur_abluft_aussen
+  heat_recovery: sensor.ventosync_wrg_effizienz
+  presence: binary_sensor.ventosync_radar_anwesenheit
 
 # Display options
 show_sensors:
@@ -97,8 +97,7 @@ show_sensors:
 This card is designed to work with VentoSync's ESPHome `fan` entity:
 
 - **Fan speed:** 10 discrete steps via `speed_count: 10`
-- **Preset modes:** Normal, Eco, Boost, Sleep, Away, Bypass
-- **Direction:** Supply / Exhaust dominant
+- **Preset modes:** Smart-Automatik, Wärmerückgewinnung, Durchlüften, Stoßlüftung
 
 All sensor data is read from separate sensor entities — the card is not limited by the fan entity's attributes.
 

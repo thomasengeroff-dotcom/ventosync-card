@@ -263,8 +263,8 @@ export const cardStyles = `
 
   /* ── Animations ───────────────────────────────────────── */
 
-  /* Boost mode: pulsing glow */
-  :host([data-preset="Boost"]) .center-icon.on .icon-svg {
+  /* Stoßlüftung (Boost): pulsing glow */
+  :host([data-preset="Stoßlüftung"]) .center-icon.on .icon-svg {
     animation: vs-pulse 2s ease-in-out infinite;
   }
 
@@ -277,8 +277,8 @@ export const cardStyles = `
     }
   }
 
-  /* Sleep mode: slow breathing opacity */
-  :host([data-preset="Sleep"]) .center-icon.on .icon-svg {
+  /* Smart-Automatik: slow breathing opacity (auto mode indicator) */
+  :host([data-preset="Smart-Automatik"]) .center-icon.on .icon-svg {
     animation: vs-breathe 4s ease-in-out infinite;
   }
 

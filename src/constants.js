@@ -41,20 +41,18 @@ export const SLIDER_DEFAULTS = Object.freeze({
 });
 
 // ── Preset Mode Colors ─────────────────────────────────────
-// Each preset gets a primary color and a translucent track color.
+// Keys match the native VentoSync operating mode names (ESPHome preset_modes).
 // Colors are chosen for readability on both light and dark HA themes.
 export const PRESET_COLORS = Object.freeze({
-    Normal: { primary: '#4FC3F7', track: 'rgba(79, 195, 247, 0.15)' },
-    Eco: { primary: '#81C784', track: 'rgba(129, 199, 132, 0.15)' },
-    Boost: { primary: '#FF8A65', track: 'rgba(255, 138, 101, 0.15)' },
-    Sleep: { primary: '#CE93D8', track: 'rgba(206, 147, 216, 0.15)' },
-    Away: { primary: '#90A4AE', track: 'rgba(144, 164, 174, 0.15)' },
-    Bypass: { primary: '#4DD0E1', track: 'rgba(77, 208, 225, 0.15)' },
-    off: { primary: '#616161', track: 'rgba(97, 97, 97, 0.15)' },
+    'Smart-Automatik':    { primary: '#81C784', track: 'rgba(129, 199, 132, 0.15)' },
+    'Wärmerückgewinnung': { primary: '#4FC3F7', track: 'rgba(79, 195, 247, 0.15)' },
+    'Durchlüften':       { primary: '#4DD0E1', track: 'rgba(77, 208, 225, 0.15)' },
+    'Stoßlüftung':       { primary: '#FF8A65', track: 'rgba(255, 138, 101, 0.15)' },
+    off:                  { primary: '#616161', track: 'rgba(97, 97, 97, 0.15)' },
 });
 
 // Fallback when preset is unknown
-export const DEFAULT_COLORS = PRESET_COLORS.Normal;
+export const DEFAULT_COLORS = PRESET_COLORS['Wärmerückgewinnung'];
 
 // ── CO₂ Thresholds (for color-coding) ─────────────────────
 export const CO2_THRESHOLDS = Object.freeze([

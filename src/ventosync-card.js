@@ -145,7 +145,7 @@ class VentoSyncCard extends HTMLElement {
     }
 
     get _presetMode() {
-        return this._entityState?.attributes?.preset_mode ?? 'Normal';
+        return this._entityState?.attributes?.preset_mode ?? 'Wärmerückgewinnung';
     }
 
     get _entityName() {
@@ -440,9 +440,9 @@ class VentoSyncCard extends HTMLElement {
             entity: 'fan.ventosync_hrv',
             name: 'VentoSync',
             sensors: {
-                co2: 'sensor.ventosync_co2',
-                temperature: 'sensor.ventosync_temperature',
-                humidity: 'sensor.ventosync_humidity',
+                co2: 'sensor.ventosync_effektiver_co2_wert',
+                temperature: 'sensor.ventosync_scd41_temperatur',
+                humidity: 'sensor.ventosync_scd41_luftfeuchtigkeit',
             },
         };
     }
