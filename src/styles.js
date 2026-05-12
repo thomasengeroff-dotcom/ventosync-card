@@ -48,7 +48,8 @@ export const cardStyles = `
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 65%;
+    min-width: 0;
+    flex: 1 1 0;
   }
 
   .preset-badge {
@@ -62,6 +63,8 @@ export const cardStyles = `
     color: #fff;
     cursor: pointer;
     user-select: none;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: transform 0.15s ease, opacity 0.15s ease;
     -webkit-tap-highlight-color: transparent;
   }
@@ -110,6 +113,17 @@ export const cardStyles = `
                 opacity var(--vs-transition-speed) ease;
   }
 
+  /* CO₂ inner ring */
+  .co2-ring-track {
+    transition: stroke var(--vs-transition-speed) ease;
+  }
+
+  .co2-ring-active {
+    transition: stroke var(--vs-transition-speed) ease,
+                d var(--vs-transition-speed) ease;
+    filter: drop-shadow(0 0 3px var(--vs-co2-glow, transparent));
+  }
+
   /* Thumb */
   .thumb {
     cursor: grab;
@@ -140,6 +154,7 @@ export const cardStyles = `
     justify-content: center;
     width: var(--vs-icon-size);
     height: var(--vs-icon-size);
+    overflow: visible;
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -186,6 +201,39 @@ export const cardStyles = `
     flex-direction: column;
     align-items: center;
     margin-top: 2px;
+  }
+
+  /* CO₂ inline display (inside circle) */
+  .co2-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+    margin-bottom: 0;
+  }
+
+  .co2-label {
+    font-size: 0.65em;
+    font-weight: 600;
+    color: var(--vs-co2-color, var(--secondary-text-color));
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .co2-value {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--vs-co2-color, var(--primary-text-color));
+    line-height: 1;
+  }
+
+  .co2-unit {
+    font-size: 0.6em;
+    font-weight: 500;
+    color: var(--vs-co2-color, var(--secondary-text-color));
+    opacity: 0.7;
   }
 
   .value-step {

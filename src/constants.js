@@ -64,6 +64,11 @@ export const CO2_THRESHOLDS = Object.freeze([
     { max: Infinity, color: '#E57373', label: 'Kritisch' },
 ]);
 
+// ── CO₂ Ring Range (inner arc mapping) ─────────────────────
+// Maps 400 ppm (fresh air) → 0% and 2000 ppm (critical) → 100%
+export const CO2_RING_MIN = 400;
+export const CO2_RING_MAX = 2000;
+
 // ── IAQ Thresholds ─────────────────────────────────────────
 export const IAQ_THRESHOLDS = Object.freeze([
     { max: 50, color: '#81C784', label: 'Exzellent' },
@@ -151,7 +156,7 @@ export const HRV_ICON_SVG = `
 
 // ── Helper: Get color for a threshold-based value ──────────
 export function getThresholdColor(value, thresholds) {
-    if (!thresholds || value == null || isNaN(value)) {
+    if (!thresholds || value === null || value === undefined || isNaN(value)) {
         return null;
     }
     for (const t of thresholds) {
@@ -164,7 +169,7 @@ export function getThresholdColor(value, thresholds) {
 
 // ── Helper: Get label for a threshold-based value ──────────
 export function getThresholdLabel(value, thresholds) {
-    if (!thresholds || value == null || isNaN(value)) {
+    if (!thresholds || value === null || value === undefined || isNaN(value)) {
         return null;
     }
     for (const t of thresholds) {

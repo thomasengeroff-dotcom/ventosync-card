@@ -16,6 +16,8 @@ import {
     DEFAULT_CONFIG,
     SENSOR_CONFIG,
     HRV_ICON_SVG,
+    CO2_RING_MIN,
+    CO2_RING_MAX,
     getPresetColors,
     getThresholdColor,
 } from './constants.js';
@@ -97,15 +99,27 @@ class VentoSyncCard extends HTMLElement {
 
     set hass(hass) {
         const oldState = this._entityState;
+        const oldHass = this._hass;
         this._hass = hass;
         const newState = this._entityState;
 
         // Only re-render if relevant state changed
-        const changed =
+        let changed =
             !oldState ||
             oldState.state !== newState?.state ||
             oldState.attributes?.percentage !== newState?.attributes?.percentage ||
             oldState.attributes?.preset_mode !== newState?.attributes?.preset_mode;
+
+        // Also check configured sensor entities (for CO₂ ring, etc.)
+        if (!changed && this._config?.sensors) {
+            for (const entityId of Object.values(this._config.sensors)) {
+                if (entityId &&
+                    oldHass?.states?.[entityId]?.state !== hass?.states?.[entityId]?.state) {
+                    changed = true;
+                    break;
+                }
+            }
+        }
 
         if (changed || !this._initialized) {
             this._render();
@@ -196,6 +210,26 @@ class VentoSyncCard extends HTMLElement {
             .map((key) => [key, sensorData[key]]);
     }
 
+    /**
+     * Get CO₂ ring data for the inner arc visualization.
+     * Returns { fraction, color, value } or null if unavailable.
+     */
+    _getCo2RingData() {
+        const sensorData = this._getSensorData();
+        const co2 = sensorData.co2;
+        if (!co2 || !co2.available || typeof co2.value !== 'number') {
+            return null;
+        }
+        const fraction = Math.min(1, Math.max(0,
+            (co2.value - CO2_RING_MIN) / (CO2_RING_MAX - CO2_RING_MIN)
+        ));
+        return {
+            fraction,
+            color: co2.color || '#81C784',
+            value: co2.value,
+        };
+    }
+
     // ── Slider Callbacks ───────────────────────────────────
 
     _onSliderChange(step) {
@@ -281,6 +315,17 @@ class VentoSyncCard extends HTMLElement {
 
         // Sensor data
         const visibleSensors = this._getVisibleSensors();
+        const co2Ring = this._getCo2RingData();
+
+        // CO₂ inner ring geometry
+        const co2InnerRadius = slider.radius - 16;
+        const co2TrackStroke = 4;
+        const co2ActiveStroke = 12;
+        const co2TrackPath = slider.getInnerTrackPath(co2InnerRadius);
+        const co2ActivePath = co2Ring
+            ? slider.getInnerArcPath(co2InnerRadius, co2Ring.fraction)
+            : '';
+        const co2Color = co2Ring?.color ?? '#81C784';
 
         // Update host attribute for CSS animations
         this.setAttribute('data-preset', this._isOn ? this._presetMode : 'off');
@@ -318,6 +363,22 @@ class VentoSyncCard extends HTMLElement {
                     stroke-width="${slider.strokeWidth}"
                     stroke-linecap="round"/>
 <!---->
+              <!-- CO₂ inner ring -->
+              <path class="co2-ring-track"
+                    d="${co2TrackPath}"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.06)"
+                    stroke-width="${co2TrackStroke}"
+                    stroke-linecap="round"/>
+              ${co2ActivePath ? `
+                <path class="co2-ring-active"
+                      d="${co2ActivePath}"
+                      fill="none"
+                      stroke="${co2Color}"
+                      stroke-width="${co2ActiveStroke}"
+                      stroke-linecap="round"
+                      style="--vs-co2-glow: ${co2Color}"/>
+              ` : ''}
               <!-- Tick marks -->
               ${ticks.map((t) => `
                 <line class="tick"
@@ -355,11 +416,15 @@ class VentoSyncCard extends HTMLElement {
                  style="--vs-icon-color: ${colors.primary}">
               ${this._config.icon_url
                 ? `<img class="icon-img" src="${this._config.icon_url}" alt="HRV"/>`
-                : `<div class="icon-svg">${HRV_ICON_SVG}
-</div>
-
-`
-            }
+                : `<div class="icon-svg">${HRV_ICON_SVG}</div>`
+              }
+              ${co2Ring ? `
+                <div class="co2-display" style="--vs-co2-color: ${co2Color}">
+                  <span class="co2-label">CO₂</span>
+                  <span class="co2-value">${co2Ring.value.toFixed(0)}</span>
+                  <span class="co2-unit">ppm</span>
+                </div>
+              ` : ''}
               <div class="value-display">
                 <span class="value-step">
                   ${this._isOn ? step : 'OFF'}
@@ -379,7 +444,7 @@ class VentoSyncCard extends HTMLElement {
           <!-- Sensor readouts -->
           ${visibleSensors.length > 0 ? `
             <div class="sensors">
-              ${visibleSensors.map(([key, s]) => `
+              ${visibleSensors.map(([_key, s]) => `
                 <div class="sensor">
                   <ha-icon icon="${s.icon}"></ha-icon>
                   <span class="sensor-value ${s.color ? 'threshold-colored' : ''}"

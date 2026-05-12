@@ -132,6 +132,26 @@ export class CircularSlider {
         return describeArc(this.cx, this.cy, this.radius, this.arcStart, angle);
     }
 
+    /**
+     * Get background track arc for an inner ring at `innerRadius`.
+     * @param {number} innerRadius – Radius in SVG units
+     */
+    getInnerTrackPath(innerRadius) {
+        return describeArc(this.cx, this.cy, innerRadius, this.arcStart, this.arcEnd);
+    }
+
+    /**
+     * Get filled arc for an inner ring at `innerRadius` for a given fraction (0–1).
+     * @param {number} innerRadius – Radius in SVG units
+     * @param {number} fraction – Value between 0 and 1
+     */
+    getInnerArcPath(innerRadius, fraction) {
+        if (fraction <= 0) { return ''; }
+        const clampedFraction = Math.min(1, Math.max(0, fraction));
+        const angle = this.arcStart + clampedFraction * (this.arcEnd - this.arcStart);
+        return describeArc(this.cx, this.cy, innerRadius, this.arcStart, angle);
+    }
+
     /** Get {x, y} for the thumb at a given step. */
     getThumbPosition(step) {
         return this.stepToXY(step);
