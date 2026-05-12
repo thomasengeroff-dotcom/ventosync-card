@@ -5,7 +5,7 @@
 // ============================================================
 
 // ── Card Metadata ──────────────────────────────────────────
-export const CARD_VERSION = '1.0.0';
+export const CARD_VERSION = '1.1.0';
 export const CARD_TAG = 'ventosync-card';
 export const CARD_NAME = 'VentoSync HRV Control';
 export const CARD_DESCRIPTION =
