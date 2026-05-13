@@ -8,7 +8,11 @@ Wenn dieser Workflow aufgerufen wird, führst du als KI-Assistent vollautomatisc
 
 ## Ablauf:
 
-1. **Änderungen analysieren & Commit Message generieren:**
+1. **Linting (Sicherheitscheck):**
+   Führe im Terminal den Befehl `npm run lint` aus. 
+   **WICHTIG:** Falls ESLint Fehler meldet (Exit Code != 0), brich den Workflow sofort ab und zeige dem User die Fehler. Mache erst mit den nächsten Schritten weiter, wenn das Linting erfolgreich war!
+
+2. **Änderungen analysieren & Commit Message generieren:**
    Führe im Terminal `git status` und `git diff` aus, um die uncommitteten Änderungen zu analysieren.
    Generiere daraus eine prägnante, kurze Commit-Message im Format Conventional Commits (z.B. `feat: ...` oder `fix: ...` oder `style: ...`).
 

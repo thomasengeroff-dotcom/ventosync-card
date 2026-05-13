@@ -242,8 +242,12 @@ class VentoSyncCard extends HTMLElement {
         
         for (const t of SENSOR_CONFIG.co2.thresholds) {
             let tMax = t.max;
-            if (tMax > max) tMax = max;
-            if (tMax <= min) continue;
+            if (tMax > max) {
+                tMax = max;
+            }
+            if (tMax <= min) {
+                continue;
+            }
             
             const fraction = (tMax - min) / range;
             segments.push({
@@ -252,7 +256,9 @@ class VentoSyncCard extends HTMLElement {
                 color: t.color
             });
             lastFraction = fraction;
-            if (fraction >= 1) break;
+            if (fraction >= 1) {
+                break;
+            }
         }
         return segments;
     }
@@ -490,7 +496,7 @@ class VentoSyncCard extends HTMLElement {
           <!-- Sensor readouts -->
           ${visibleSensors.length > 0 ? `
             <div class="sensors">
-              ${visibleSensors.map(([_key, s]) => `
+              ${visibleSensors.map(([, s]) => `
                 <div class="sensor">
                   <ha-icon icon="${s.icon}"></ha-icon>
                   <span class="sensor-value ${s.color ? 'threshold-colored' : ''}"
