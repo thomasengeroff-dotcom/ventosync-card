@@ -230,6 +230,33 @@ class VentoSyncCard extends HTMLElement {
         };
     }
 
+    /**
+     * Calculate colored segments for the hollow background track.
+     */
+    _getCo2SegmentsData() {
+        const segments = [];
+        const min = CO2_RING_MIN;
+        const max = CO2_RING_MAX;
+        const range = max - min;
+        let lastFraction = 0;
+        
+        for (const t of SENSOR_CONFIG.co2.thresholds) {
+            let tMax = t.max;
+            if (tMax > max) tMax = max;
+            if (tMax <= min) continue;
+            
+            const fraction = (tMax - min) / range;
+            segments.push({
+                start: lastFraction,
+                end: fraction,
+                color: t.color
+            });
+            lastFraction = fraction;
+            if (fraction >= 1) break;
+        }
+        return segments;
+    }
+
     // ── Slider Callbacks ───────────────────────────────────
 
     _onSliderChange(step) {
@@ -319,13 +346,20 @@ class VentoSyncCard extends HTMLElement {
 
         // CO₂ inner ring geometry
         const co2InnerRadius = slider.radius - 16;
-        const co2TrackStroke = 4;
         const co2ActiveStroke = 8;
         const co2TrackPath = slider.getInnerTrackPath(co2InnerRadius);
         const co2ActivePath = co2Ring
             ? slider.getInnerArcPath(co2InnerRadius, co2Ring.fraction)
             : '';
         const co2Color = co2Ring?.color ?? '#81C784';
+
+        const co2Segments = this._getCo2SegmentsData().map(seg => ({
+            color: seg.color,
+            path: slider.getInnerArcSegmentPath(co2InnerRadius, seg.start, seg.end)
+        }));
+        
+        // Generate a unique ID for the mask to prevent cross-card bleeding
+        const maskId = `vs-hollow-mask-${this._config.entity.replace(/[^a-zA-Z0-9]/g, '-')}`;
 
         // Update host attribute for CSS animations
         this.setAttribute('data-preset', this._isOn ? this._presetMode : 'off');
@@ -363,13 +397,25 @@ class VentoSyncCard extends HTMLElement {
                     stroke-width="${slider.strokeWidth}"
                     stroke-linecap="round"/>
 <!---->
-              <!-- CO₂ inner ring -->
-              <path class="co2-ring-track"
-                    d="${co2TrackPath}"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.06)"
-                    stroke-width="${co2TrackStroke}"
-                    stroke-linecap="round"/>
+              <defs>
+                <mask id="${maskId}">
+                  <path d="${co2TrackPath}" stroke="white" stroke-width="${co2ActiveStroke}" fill="none" stroke-linecap="round"/>
+                  <!-- Cut out the inside to make it hollow, leaving a 1.5px border -->
+                  <path d="${co2TrackPath}" stroke="black" stroke-width="${co2ActiveStroke - 3}" fill="none" stroke-linecap="round"/>
+                </mask>
+              </defs>
+              
+              <!-- CO₂ inner ring track (hollow colored segments) -->
+              <g class="co2-ring-track" mask="url(#${maskId})">
+                ${co2Segments.map(seg => `
+                  <path d="${seg.path}"
+                        stroke="${seg.color}"
+                        stroke-width="${co2ActiveStroke}"
+                        fill="none"
+                        stroke-linecap="butt"
+                        opacity="0.5"/>
+                `).join('')}
+              </g>
               ${co2ActivePath ? `
                 <path class="co2-ring-active"
                       d="${co2ActivePath}"

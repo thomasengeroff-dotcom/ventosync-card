@@ -152,6 +152,24 @@ export class CircularSlider {
         return describeArc(this.cx, this.cy, innerRadius, this.arcStart, angle);
     }
 
+    /**
+     * Get an arc segment between two fractions (0-1).
+     * @param {number} innerRadius - Radius in SVG units
+     * @param {number} startFraction - Start fraction (0-1)
+     * @param {number} endFraction - End fraction (0-1)
+     */
+    getInnerArcSegmentPath(innerRadius, startFraction, endFraction) {
+        const clamp = (val) => Math.min(1, Math.max(0, val));
+        const start = clamp(startFraction);
+        const end = clamp(endFraction);
+        if (start >= end) { return ''; }
+
+        const startAngle = this.arcStart + start * (this.arcEnd - this.arcStart);
+        const endAngle = this.arcStart + end * (this.arcEnd - this.arcStart);
+        
+        return describeArc(this.cx, this.cy, innerRadius, startAngle, endAngle);
+    }
+
     /** Get {x, y} for the thumb at a given step. */
     getThumbPosition(step) {
         return this.stepToXY(step);
