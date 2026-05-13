@@ -56,18 +56,17 @@ export const DEFAULT_COLORS = PRESET_COLORS['Wärmerückgewinnung'];
 
 // ── CO₂ Thresholds (for color-coding) ─────────────────────
 export const CO2_THRESHOLDS = Object.freeze([
-    { max: 600, color: '#81C784', label: 'Exzellent' },
-    { max: 800, color: '#AED581', label: 'Gut' },
-    { max: 1000, color: '#FFD54F', label: 'Mäßig' },
-    { max: 1200, color: '#FFB74D', label: 'Schlecht' },
-    { max: 1500, color: '#FF8A65', label: 'Sehr schlecht' },
-    { max: Infinity, color: '#E57373', label: 'Kritisch' },
+    { max: 700, color: '#81C784', label: 'Ausgezeichnet' },
+    { max: 1000, color: '#AED581', label: 'Gut' },
+    { max: 1500, color: '#FFB74D', label: 'Mäßig' },
+    { max: 2000, color: '#E57373', label: 'Schlecht' },
+    { max: Infinity, color: '#9C27B0', label: 'Sehr schlecht' },
 ]);
 
 // ── CO₂ Ring Range (inner arc mapping) ─────────────────────
-// Maps 400 ppm (fresh air) → 0% and 2000 ppm (critical) → 100%
+// Maps 400 ppm (fresh air) → 0% and 2500 ppm → 100%
 export const CO2_RING_MIN = 400;
-export const CO2_RING_MAX = 2000;
+export const CO2_RING_MAX = 2500;
 
 // ── IAQ Thresholds ─────────────────────────────────────────
 export const IAQ_THRESHOLDS = Object.freeze([
