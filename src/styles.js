@@ -178,9 +178,11 @@ export const cardStyles = `
   .icon-svg {
     width: 70%;
     height: auto;
+    transform: translateY(18px);
     color: var(--vs-icon-color, var(--primary-text-color));
     transition: color var(--vs-transition-speed) ease,
-                filter var(--vs-transition-speed) ease;
+                filter var(--vs-transition-speed) ease,
+                transform var(--vs-transition-speed) ease;
   }
 
   .center-icon.on .icon-svg {
@@ -191,8 +193,10 @@ export const cardStyles = `
   .icon-img {
     width: 70%;
     height: auto;
+    transform: translateY(18px);
     object-fit: contain;
-    transition: filter var(--vs-transition-speed) ease;
+    transition: filter var(--vs-transition-speed) ease,
+                transform var(--vs-transition-speed) ease;
   }
 
   /* Step value display */

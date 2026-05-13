@@ -320,7 +320,7 @@ class VentoSyncCard extends HTMLElement {
         // CO₂ inner ring geometry
         const co2InnerRadius = slider.radius - 16;
         const co2TrackStroke = 4;
-        const co2ActiveStroke = 12;
+        const co2ActiveStroke = 8;
         const co2TrackPath = slider.getInnerTrackPath(co2InnerRadius);
         const co2ActivePath = co2Ring
             ? slider.getInnerArcPath(co2InnerRadius, co2Ring.fraction)
