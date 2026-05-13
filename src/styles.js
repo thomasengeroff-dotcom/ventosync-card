@@ -176,13 +176,12 @@ export const cardStyles = `
 
   /* Custom SVG icon */
   .icon-svg {
-    width: 70%;
+    width: 55%;
     height: auto;
-    transform: translateY(18px);
+    margin-bottom: -5px;
     color: var(--vs-icon-color, var(--primary-text-color));
     transition: color var(--vs-transition-speed) ease,
-                filter var(--vs-transition-speed) ease,
-                transform var(--vs-transition-speed) ease;
+                filter var(--vs-transition-speed) ease;
   }
 
   .center-icon.on .icon-svg {
@@ -191,12 +190,11 @@ export const cardStyles = `
 
   /* External icon via URL */
   .icon-img {
-    width: 70%;
+    width: 55%;
     height: auto;
-    transform: translateY(18px);
+    margin-bottom: -5px;
     object-fit: contain;
-    transition: filter var(--vs-transition-speed) ease,
-                transform var(--vs-transition-speed) ease;
+    transition: filter var(--vs-transition-speed) ease;
   }
 
   /* Step value display */
